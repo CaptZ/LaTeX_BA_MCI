@@ -1,0 +1,71 @@
+%% ACHTUNG: Vorlage Bachelorarbeit
+%Dateien in Ordner lab können ignoriert werden
+%für Laborbericht Datei laborbericht.tex öffnen!
+\documentclass[a4paper,oneside,11pt]{scrreprt}
+
+\usepackage{ifthen}
+\newboolean{english}
+%\setboolean{english}{true}		% auskommentieren fuer deutsche Version
+
+\input{input/definitionen.tex}
+\input{input/eigene_definitionen.tex}
+\input{input/nomenklatur_definitionen.tex}
+\input{input/tikz_definitionen.tex}
+
+%%%%% Bachelorarbeit %%%%%
+\ifthenelse{\boolean{english}}{\def\title{Title of the Thesis}}{\def\title{Titel der Arbeit}}
+\ifthenelse{\boolean{english}}{\def\study{Mechatronics - Electrical Engineering}}{\def\study{Mechatronik - Elektrotechnik}}
+\ifthenelse{\boolean{english}}{\def\thesis{Bachelor Thesis 2}}{\def\thesis{Bachelorarbeit 2}}
+\def\degree{Bachelor of Science in Engineering}
+\def\student{Markus Mustermann}
+\def\matnr{666}
+\def\address{A-PLZ Ort, Stra{\ss}e Hausnummer}
+\def\reviewerone{Dr. Martina Musterfrau}
+\def\reviewertwo{Dr. Markus Mustermann}
+
+% Anpassung der Abkürzungen
+\renewcommand\figurename{\ifthenelse{\boolean{english}}{Fig.}{Abb.}}
+\renewcommand\tablename{\ifthenelse{\boolean{english}}{Tab.}{Tab.}}
+\renewcommand\lstlistingname{\ifthenelse{\boolean{english}}{Lst.}{Lst.}}
+\newcommand\Gl{\ifthenelse{\boolean{english}}{Eq.}{Gl.}}
+
+\begin{document}
+
+%\layout
+% Kopf- und Fusszeilen initiieren
+\pagestyle{plain}
+\pagenumbering{Roman}
+
+%% Bachelorarbeit
+\input{ba/adeckblatt.tex}
+\input{ba/sperr.tex}
+\input{ba/eid.tex}
+\input{ba/dank.tex}
+\input{ba/kurzfassung.tex}
+\input{input/pre_verzeichnisse.tex}
+
+\newpage
+\setcounter{romancount}{\value{page}}
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+% Kopf- und Fusszeilen initiieren
+\pagestyle{fancy}
+
+%% Bachelorarbeit
+\input{ba/kapitel1.tex}
+\input{ba/kapitel2.tex}
+\input{ba/kapitel3.tex}
+\input{ba/kapitel4.tex}
+\input{ba/kapitel5.tex}
+\input{ba/kapitel6.tex}
+\input{input/post_verzeichnisse.tex}
+
+% Anhänge
+\begin{appendix}
+	%% Bachelorarbeit
+	\input{ba/anhangA.tex}
+	\input{ba/anhangB.tex}
+\end{appendix}
+
+\end{document}

@@ -1,0 +1,66 @@
+%% ACHTUNG: Vorlage Laborbericht
+%Dateien in Ordner ba können ignoriert werden
+%für Laborbericht Datei ba_thesis.tex öffnen!
+\documentclass[a4paper,oneside,10pt]{scrreprt}
+
+\usepackage{ifthen}
+\newboolean{english}
+%\setboolean{english}{true}		% auskommentieren fuer deutsche Version
+
+\input{input/definitionen.tex}
+\input{input/eigene_definitionen.tex}
+\input{input/nomenklatur_definitionen.tex}
+\input{input/tikz_definitionen.tex}
+
+%%%%% Laborbericht %%%%%
+\def\labtitle{Laborname}
+\def\labcode{MTM-B-3-MST-REG-LB}
+\def\labname{Labortitel}
+\def\labnum{1}
+\def\studylab{Bachelor Mechatronik}
+\def\term{3.}
+\def\lecturer{Andreas Mehrle}
+\def\group{BA-MECH-15-BB-4C}
+\def\student{Markus Mustermann, Martina Musterfrau}
+
+% Anpassung der Abkürzungen
+\renewcommand\figurename{\ifthenelse{\boolean{english}}{Fig.}{Abb.}}
+\renewcommand\tablename{\ifthenelse{\boolean{english}}{Tab.}{Tab.}}
+\renewcommand\lstlistingname{\ifthenelse{\boolean{english}}{Lst.}{Lst.}}
+\newcommand\Gl{\ifthenelse{\boolean{english}}{Eq.}{Gl.}}
+
+\begin{document}
+
+%\layout
+% Kopf- und Fusszeilen initiieren
+\pagestyle{plain}
+\pagenumbering{Roman}
+
+%% Laborbericht
+\input{lab/ldeckblatt.tex}
+\input{input/pre_verzeichnisse.tex}
+
+\newpage
+
+\setcounter{romancount}{\value{page}}
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+% Kopf- und Fusszeilen initiieren
+\pagestyle{fancy}
+
+%% Laborbericht
+\input{lab/1_einleitung_und_aufgabenstellung.tex}
+\input{lab/2_versuchsaufbau_und_materialien.tex}
+\input{lab/3_versuchsdurchfuehrung_und_methoden.tex}
+\input{lab/4_ergebnis_und_interpretation.tex}
+
+\input{input/post_verzeichnisse.tex}
+
+% Anhänge
+%\begin{appendix}
+	%% Laborbericht
+	%\input{lab/anhangA.tex}
+%\end{appendix}
+
+\end{document}

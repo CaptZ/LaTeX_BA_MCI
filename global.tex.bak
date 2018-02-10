@@ -1,0 +1,20 @@
+%% Listing für Programmiersprachen
+
+\usepackage{listings}
+\lstset{
+  language={C},
+  %basicstyle=\tiny  %% kleiner Sourcecode
+  %commentstyle=\tiny  %% nur Kommentar klein --> sieht scheiße aus
+}
+
+%% Farbe für Tabellen
+\usepackage{colortbl}
+
+
+
+\usepackage{graphicx}
+\usepackage{psfrag,tikz} % epsfig,
+\usetikzlibrary{arrows,calc}
+\usepackage{pst-all} % malen
+\usepackage{color} % farben
+
