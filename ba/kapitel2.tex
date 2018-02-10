@@ -1,0 +1,65 @@
+% Falls die Kapitel"uberschriften zu lang f"ur die Kopfzeile oder das Inhaltsverzeichnis sind, so erzielt man
+% dort Kurzformen der Kapitelbezeichnungen mittels:
+% \chapter[Kurzform]{Lange "Uberschrift}
+\chapter[Formatierungen]{Formatierungen von "Uberschriften und Text in Latex}
+
+In Latex brauchen Sie sich um Formatierungen im Prinzip nicht k"ummern. Es ist lediglich notwendig, dass Sie Kapitel, Abschnitte, Unterabschnitte und so weiter als solche deklarieren.
+
+Multiple Leerzeichen        werden von Latex einfach gel"oscht. Haben Sie einen Absatz beendet (nach 3 bis 4 S"atzen), dann lassen Sie durch ein zweimaliges ''Enter'' eine Zeile Abstand. Der Absatz wird je nach globaler Einstellung einger"uckt oder abgesetzt.
+
+Wollen Sie im Text etwas hervorheben, dann verwenden Sie \emph{hervorgehoben}. Die Hervorhebung wird von Latex automatisch dem jeweiligen Textstil angepasst. Sie k"onnen aber auch etwas explizit \textbf{fett}, \textit{kursiv} oder \underline{unterstrichen} setzen, wobei dies mit Vorsicht zu genie"sen ist.
+
+So kann zum Beispiel ein Teil eines Source-Codes angegeben werden: 
+\lstset{language=c++}
+\begin{lstlisting}
+/* Bubble sort code */
+ 
+#include <stdio.h>
+ 
+int main()
+{
+	int array[100], n, c, d, swap;
+ 
+	printf("Enter number of elements\n");
+	scanf("%d", &n);
+ 	printf("Enter %d integers\n", n);
+ 	for (c = 0; c < n; c++)
+		scanf("%d", &array[c]); 
+	for (c = 0 ; c < ( n - 1 ); c++) {
+    		for (d = 0 ; d < n - c - 1; d++) {
+			/* For decreasing order use < */
+			if (array[d] > array[d+1]) {
+				swap = array[d];
+				array[d] = array[d+1];
+				array[d+1] = swap;
+			}
+		}
+	} 
+	printf("Sorted list in ascending order:\n");
+	for ( c = 0 ; c < n ; c++ )
+		printf("%d\n", array[c]);
+	return 0;
+}
+\end{lstlisting}
+
+\section[Abschnitt]{Das w"are ein Abschnitt}
+
+Mit etwas Text ...
+
+\subsection[Unterabschnitt]{Bzw. ein Unterabschnitt}
+
+Wie Ihnen vielleicht schon aufgefallen ist, vergr"o"sert \LaTeX nach einem ''.'' den Abstand geb"uhrlich f"ur ein Satzende. Falls dies nicht ben"otigt wird z.B.~hier, sollte dies h"andisch verhindert werden.
+
+\paragraph{Gliederungsebene 3} Die n"achste Gliederungsebene wird nicht mehr nummeriert.
+
+\LaTeX kennt auch Aufz"ahlungen wobei es diese mit
+\begin{enumerate}
+\item Nummerierung
+\item\label{enum-ebene} auf der ersten Ebene
+\item oder
+\begin{itemize}
+\item ohne Nummerierung
+\item auf der 2.~Ebene gibt.
+\end{itemize}
+\end{enumerate}
+Es gibt eine ganze Reihe von weiteren Formatierungsm"oglichkeiten. Z.B.~behandelt {\LaTeX} die erste Seite eines Kapitels anders als alle folgenden. Dies f"allt insbesondere bei der Seitenzahl und der Kopfzeile auf.

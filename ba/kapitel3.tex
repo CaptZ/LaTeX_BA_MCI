@@ -1,0 +1,41 @@
+\chapter{Bilder und Tabellen}
+
+Ein Bild kann an jeder Stelle eingef"ugt werden. Prinzipiell funktioniert zwar jedes Bildformat (ausgenommen gewisser Grauslichkeiten wie WMF etc.), Postscript und enhanced Postscript bzw~PDF haben sich aber besonders bew"ahrt.
+\begin{figure}[H]
+\centering
+\includegraphics[width=75mm]{bilder/Buchruecken}
+\caption[Beschriftung eines Buchr"uckens.]{Beispiel f"ur die Beschriftung eines Buchr"uckens.}
+\label{fig-buch}
+\end{figure}
+Dann gehen auch ganz besonders tolle Dinge
+\begin{figure}[H]
+\centering
+\includegraphics[width=75mm,angle=180]{bilder/Buchruecken}
+\caption[Verkehrte Beschriftung eines Buchr"uckens.]{Beispiel f"ur die verkehrte Beschriftung eines Buchr"uckens.}
+\label{fig-buch_90}
+\end{figure}
+\begin{figure}[H]
+\centering
+\begin{pspicture}(0,-1.7)(8.5,3.5)
+\psline[arrowsize=6pt,arrowinset=0]{->}(0,0)(8.5,0)\rput(8.8,0){$x$}
+\psline[arrowsize=6pt,arrowinset=0]{->}(0,0)(0,3)\rput(0,3.3){$y$}
+\psline[linestyle=dashed](0.000,0.000)(0.100,0.724)(0.200,1.310)(0.300,1.778)(0.400,2.145)(0.500,2.426)(0.600,2.634)(0.700,2.781)(0.800,2.876)(0.900,2.927)(1.000,2.943)(1.100,2.929)(1.200,2.891)(1.300,2.834)(1.400,2.762)(1.500,2.678)(1.600,2.584)(1.700,2.484)(1.800,2.380)(1.900,2.273)(2.000,2.165)(2.100,2.057)(2.200,1.950)(2.300,1.845)(2.400,1.742)(2.500,1.642)(2.600,1.545)(2.700,1.452)(2.800,1.362)(2.900,1.277)(3.000,1.195)(3.100,1.117)(3.200,1.044)(3.300,0.974)(3.400,0.908)(3.500,0.846)(3.600,0.787)(3.700,0.732)(3.800,0.680)(3.900,0.632)(4.000,0.586)(4.100,0.544)(4.200,0.504)(4.300,0.467)(4.400,0.432)(4.500,0.400)(4.600,0.370)(4.700,0.342)(4.800,0.316)(4.900,0.292)(5.000,0.270)(5.100,0.249)(5.200,0.229)(5.300,0.212)(5.400,0.195)(5.500,0.180)(5.600,0.166)(5.700,0.153)(5.800,0.140)(5.900,0.129)(6.000,0.119)(6.100,0.109)(6.200,0.101)(6.300,0.093)(6.400,0.085)(6.500,0.078)(6.600,0.072)(6.700,0.066)(6.800,0.061)(6.900,0.056)(7.000,0.051)(7.100,0.047)(7.200,0.043)(7.300,0.039)(7.400,0.036)(7.500,0.033)(7.600,0.030)(7.700,0.028)(7.800,0.026)(7.900,0.023)(8.000,0.021)
+\psline[linestyle=dotted](0.000,0.000)(0.100,0.003)(0.200,0.013)(0.300,0.028)(0.400,0.050)(0.500,0.076)(0.600,0.108)(0.700,0.144)(0.800,0.183)(0.900,0.224)(1.000,0.268)(1.100,0.312)(1.200,0.356)(1.300,0.399)(1.400,0.439)(1.500,0.476)(1.600,0.509)(1.700,0.537)(1.800,0.558)(1.900,0.572)(2.000,0.579)(2.100,0.577)(2.200,0.566)(2.300,0.546)(2.400,0.516)(2.500,0.476)(2.600,0.427)(2.700,0.367)(2.800,0.299)(2.900,0.221)(3.000,0.135)(3.100,0.041)(3.200,-0.059)(3.300,-0.166)(3.400,-0.277)(3.500,-0.391)(3.600,-0.507)(3.700,-0.624)(3.800,-0.740)(3.900,-0.854)(4.000,-0.964)(4.100,-1.068)(4.200,-1.165)(4.300,-1.254)(4.400,-1.333)(4.500,-1.400)(4.600,-1.455)(4.700,-1.496)(4.800,-1.522)(4.900,-1.532)(5.000,-1.526)(5.100,-1.503)(5.200,-1.462)(5.300,-1.404)(5.400,-1.328)(5.500,-1.235)(5.600,-1.125)(5.700,-0.999)(5.800,-0.858)(5.900,-0.702)(6.000,-0.534)(6.100,-0.354)(6.200,-0.164)(6.300,0.034)(6.400,0.237)(6.500,0.445)(6.600,0.655)(6.700,0.863)(6.800,1.070)(6.900,1.270)(7.000,1.464)(7.100,1.647)(7.200,1.819)(7.300,1.976)(7.400,2.117)(7.500,2.239)(7.600,2.342)(7.700,2.422)(7.800,2.479)(7.900,2.512)(8.000,2.519)
+\end{pspicture}
+\caption{Beispiel f"ur einen Graphen.}
+\end{figure}
+Tabelle~\ref{tab-mathe} ist ein Beispiel daf"ur, wie eine Tabelle aussehen k"onnte.
+
+\begin{table}[htbp]
+\centering
+\caption[Semesterplan ''Angewandte Mathematik''.]{Beispiel f"ur einen 
+Semesterplan ''Angewandte Mathematik''.}
+\begin{tabular}{ccc}\hline
+\textbf{Datum} & \textbf{Thema} & \textbf{Raum}\\ \hline
+\hline
+20. 08. 2008 & Graphentheorie & HS 3.13\\ 
+01. 10. 2008 & Biomathematik & HS 1.05\\ \hline
+\end{tabular}
+\label{tab-mathe}
+\end{table}
+
