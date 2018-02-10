@@ -1,0 +1,222 @@
+\ifthenelse{\boolean{english}}{
+	\chapter{Test Preparation \& Materials}
+}{
+	\chapter{Versuchsaufbau \& Materialien}
+}
+\label{cha:versuchsaufbau}
+
+In \cite{meh10} sind viele interessante Informationen enthalten.
+
+Es kann auch auf \cite{laser2016} verwiesen werden.
+
+In \figurename~\ref{fig:diagramm_beispiel} ist eine Beispielkurve aufgetragen.
+
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+
+\begin{axis}[
+%scaled x ticks={base 10:3},
+%scaled y ticks={base 10:-3},
+width=0.9\diagbreite,
+height=1.0\diaghoehe,
+%
+%title = \textbf{Geschwindigkeitsverlauf gemessen an den Messpunkten am Druckbalken},
+%
+xlabel=$x\,/\,\si{m}$,
+ylabel={$f(x)\,/\,\si{m/s}$},
+%yticklabel pos=right,
+%
+xmax = 6,
+xmin = -6,
+ymax = 50,
+ymin = -10,
+xtick={-6,-5,...,6},
+%ytick={0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10},
+legend style = {
+at = {(0.02,0.97)},
+anchor=north west,
+cells={anchor=west},
+},
+%
+grid = both,
+%minor tick num=0,
+minor x tick num={1},
+minor y tick num={1},
+]
+	\addplot[only marks,mark=o,samples=20]{x^2 - x +4};
+		\addlegendentry{$f(x) = x^2 - x +4$};
+\end{axis}
+\end{tikzpicture}
+\caption[Kurze Bezeichnung des Diagramms f"ur das Abbildungsverzeichnis]{Beispiel eines Diagramms\atlbe}
+\label{fig:diagramm_beispiel}
+\end{figure}
+
+
+In \Gl~\ref{eqn:gleichung_beispiel} ist das dynamische Grundgesetz beschrieben. Die \Gl~\ref{eqn:integral1} zeigt den Allgemeine Zusammenhang von Ort, Geschwindigkeit und Beschleunigung. 
+
+\begin{equation}
+	F = m \cdot a
+\label{eqn:gleichung_beispiel}
+\end{equation}
+% Eintr"age in das Symbolverzeichnis
+%\nmD[F]{$F$}{Kraft}{\si{N}}	% Bereits im Symbolverzeichnis
+\nmD[m]{$m$}{Masse}{\si{kg}}
+\nmD[a]{$a$}{Beschleunigung}{\si{m/s^2}}
+
+\begin{equation}
+	z(t) = \int\limits_0^t v(t)dt = \iint\limits_0^t a(t)dt
+\label{eqn:integral1}
+\end{equation}
+% Eintr"age in das Symbolverzeichnis
+\nmD[v]{$v$}{Geschwindigkeit}{\si{m/s}} 
+\nmD[t]{$t$}{Zeit}{\si{s}}
+\nmD[z]{$z$}{Auslenkung}{\si{m}}
+
+Der Code, um \figurename~\ref{fig:diagramm_beispiel2} zu erstellen soll zeigen, wie externe Daten z.~B. Messdaten in ein Diagramm eingef"ugt werden k"onnen. Das geht sehr komfortabel.
+
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+%scaled x ticks={base 10:3},
+%scaled y ticks={base 10:-3},
+width=0.9\diagbreite,
+height=1.0\diaghoehe,
+%
+%title = \textbf{Geschwindigkeitsverlauf gemessen an den Messpunkten am Druckbalken},
+%
+xlabel=$x\,/\,\si{s}$,
+ylabel={$Messdaten~und~f(x)\,/\,\si{m}$},
+%yticklabel pos=right,
+%
+xmax = 2*pi+0.001,
+xmin = 0,
+%ymax = 50,
+%ymin = -10,
+%xtick={-6,-5,...,6},
+%ytick={0,-1,-2,-3,-4,-5,-6,-7,-8,-9,-10},
+legend style = {
+at = {(0.98,0.97)},
+anchor=north east,
+cells={anchor=west},
+},
+%
+grid = both,
+%minor tick num=0,
+minor x tick num={1},
+minor y tick num={1},
+]
+% Diagrammdaten
+\pgfplotstableread{diagrammdaten/messdaten_beispiel.txt}\DatatableMessdatenBeispiel
+	
+	\addplot[only marks,mark=o] table[y = y_m] from \DatatableMessdatenBeispiel ;
+		\addlegendentry{Messdaten};
+		
+	\addplot[samples=500,domain=0:2*pi]{sin(deg(x))};
+		\addlegendentry{Fitfunktion $f(x) = \mathrm{sin}(x)$};
+\end{axis}
+\end{tikzpicture}
+\caption[Kurze Bezeichnung des zweiten Diagramms f"ur das Abbildungsverzeichnis]{Zweites Beispiel eines Diagramms\atlbe}
+\label{fig:diagramm_beispiel2}
+\end{figure}
+
+
+\begin{equation}
+\dot{\textbf{x}} =
+\begin{bmatrix}
+  \dot{a} \\
+  \dot{b} \\
+  \ddot{c} \\
+  \ddot{d} \\
+  \end{bmatrix}
+  =
+\begin{bmatrix} 
+  1 & 0 & 0 & 0 \\
+  0 & 1 & 0 & 0 \\
+  0 & 0 & \frac{1}{2} & \frac{1}{3} \\
+  0 & 0 & 0 & 0
+  \end{bmatrix}
+\begin{bmatrix}
+  x \\
+  x_{ab} \\
+  \dot{x} \\
+  \dot{x}_{ab} \\
+  \end{bmatrix}
+ +
+\begin{bmatrix}
+  0 \\
+  0 \\
+  0 \\
+  1 \\
+  \end{bmatrix}
+ \ddot{z}_{ab}
+\label{eqn:matrix_beispiel_1}
+\end{equation}
+
+
+\begin{equation}    
+\left( \begin{array}{rrr|r}
+     1 & \nicefrac{4}{3} & \nicefrac{5}{3} & \nicefrac{22}{3}\\
+     0 & -\nicefrac{8}{3} & \nicefrac{2}{3} & -\nicefrac{14}{3}\\
+     0 & \nicefrac{2}{3} & \nicefrac{4}{3} & \nicefrac{8}{3}\\
+\end{array}\right)
+\label{eqn:matrix_beispiel_2}
+\end{equation}
+
+
+Wenn eine Matrix \textbf{A} ben"otigt wird kann sie so aussehen.
+
+%Abschnitt Zentrierung Anfang
+{\par\centering
+%\begin{equation} %wird nicht verwendet da der Platz nicht ausreicht
+$A$ =
+$  \begin{bmatrix}
+    0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+	0 & 0 & 0 & \frac{a}{b} & \frac{aa}{b} & 0 & 0 & 0 \\
+	\frac{aaa}{b} & \frac{aaaa}{b} & 0 & \frac{aaaaa}{b} & \frac{aaaaaaa}{b} & \frac{abbccccc}{b} & \frac{adddddddd}{b} & 0 \\
+	\frac{a}{b} & 0 & 0 & 0 & \frac{a}{b} & \frac{a}{b} & 0 & 0 \\
+	\frac{a}{b} & \frac{a}{b} & 0 & \frac{a}{b} & 0 & \frac{a}{b} & \frac{a}{b} \\
+	0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+  \end{bmatrix}$
+%\label{eqn_hol:state_1} %wird nicht verwendet da der Platz nicht ausreicht
+%\end{equation} 		 %wird nicht verwendet da der Platz nicht ausreicht
+%Abschnitt Zentrierung Ende
+\par}
+
+%Abstand kann händich eingegeben, sollte aber vermieden werden
+\vspace*{0.5cm}
+
+\begin{equation}
+b = \begin{bmatrix} 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1
+  \end{bmatrix}^T
+\label{eqn:matrix_beispiel_3}
+\end{equation}
+
+Matrix \Gl~\ref{eqn:matrix_beispiel_4} ist als small gekennzeichnt und \Gl~\ref{eqn:matrix_beispiel_5} hat die Normale gr"o{\ss}e.
+
+\begin{equation}
+  \mbox{\small $\begin{pmatrix}
+ 	0	&1	&4	&0\\
+ 	1	&0	&0	&4\\
+ 	3	&4	&0	&1\\
+ 	1	&1	&0	&3
+  \end{pmatrix}$}
+\label{eqn:matrix_beispiel_4}
+\end{equation}
+
+\begin{equation}
+  \mbox{ $\begin{pmatrix}
+ 	0	&1	&4	&0\\
+ 	1	&0	&0	&4\\
+ 	3	&4	&0	&1\\
+ 	1	&1	&0	&3
+  \end{pmatrix}$}
+\label{eqn:matrix_beispiel_5}
+\end{equation}

@@ -1,0 +1,7 @@
+In Texmaker unter "Benutzer/in" --> "Eigene Befehle" --> "Eigene Befehle editieren" eintragen
+
+Nomenklatur:
+makeindex.exe %.nlo -s nomencl.ist -o %.nls
+
+BibTex+XeLatex+Nomenklatur+BibTex+XeLatex+BibTex+XeLatex:
+bibtex %|xelatex -synctex=1 -interaction=nonstopmode %.tex|makeindex.exe %.nlo -s nomencl.ist -o %.nls|bibtex %|xelatex -synctex=1 -interaction=nonstopmode %.tex|bibtex %|xelatex -synctex=1 -interaction=nonstopmode %.tex

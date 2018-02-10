@@ -1,0 +1,18 @@
+\ifthenelse{\boolean{english}}{
+	\chapter{Headline Anhang A}
+}{
+	\chapter{Überschrift Anhang A}
+}
+\label{cha:anhang_a}
+
+
+\section{Datenblatt}
+\label{sec:datenblatt}
+
+Sensor Datenblatt Laser Abstands-Sensor M10L/100
+
+%\usepackage{pdfpages} muss aktiviert sein
+
+%pfd in die Seite einfügen
+\includepdf[pages={1,2}, pagecommand={\thispagestyle{fancy}},width=1.3\textwidth]{anhang/SensorDatenblatt-f.pdf}
+

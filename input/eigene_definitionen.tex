@@ -1,0 +1,101 @@
+% Listings zum einbinden von Programmcode
+\usepackage{listings}
+
+% Zus"atzliche Tabelleneigenschaften
+\usepackage{tabularx}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}} % linksb"undig mit Breitenangabe
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}} % zentriert mit Breitenangabe
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}} % rechtsbündig mit Breitenangabe
+\newcolumntype{Z}[1]{>{\centering\arraybackslash}m{#1}} % horizontal und vertikal zentriert
+\newcolumntype{Y}[1]{>{\raggedright\arraybackslash}m{#1}} % linksb"undig und vertikal zentriert
+
+% Tabellenzeilen verbinden
+\usepackage{multirow}
+
+% Tabellenh"ohe
+\renewcommand{\arraystretch}{1.2}
+
+% Mechanik-Bibliotheken einbinden
+\usepackage{input/elementlibrary}
+\usepackage{input/3dstructuralanalysis}
+
+% Konstruktionszeichnungen-Bibliothek einbinden
+\usepackage{input/konstruktionszeichnungen_mit_tikz}
+
+% Schaltungszeichnungen-Bibliothek einbinden
+\usepackage{circuitikz}
+
+% Textblöcke Auskommentieren
+\usepackage{verbatim}
+
+% Anhänge und pdf Dokument anhängen
+\usepackage{appendix}
+\usepackage{pdfpages} 
+
+%en­able a LATEX source file to gen­er­ate ex­ter­nal files
+\usepackage{filecontents}
+
+% Standardformatierung f"ur Diagramme
+\usepackage{pgfplots}
+\pgfplotsset{/pgf/number format/use comma} % Komma als Dezimaltrennzeichen
+\pgfkeys{/pgf/number format/.cd, set thousands separator={\,}} % Tausendertrennzeichen
+\pgfplotsset{
+every axis/.append style={
+thick,
+grid style={gray!50,thin},
+tick style={black,thick},
+legend style={font=\footnotesize},
+compat=newest,
+},
+every axis plot post/.append style={black,mark options={solid,draw=black,fill=white}},
+every x tick label/.style={yshift=-1pt},	% X-Achsenbeschriftung ein wenig nach unten verschieben
+}
+
+% siunitx für SI-Einheiten (Befehle \SI \si \num ...)
+\usepackage{siunitx}
+\sisetup{
+output-decimal-marker={,},
+per-mode=reciprocal,
+exponent-product=\cdot,
+retain-explicit-plus,
+range-phrase = {\dots},
+separate-uncertainty,
+list-separator={; },
+list-final-separator={; }
+}
+
+\newcommand{\dezt}{,}		% Dezimaltrennzeichen
+\newcommand{\atlbe}{}		% Ende der Abbildungs-/Tabellen-/Listingsbenennung
+\newcommand{\multz}{\cdot}	% Multiplikationszeichen
+\newcommand{\taut}{\,}		% Tausendertrennzeichen
+
+\newcommand{\bildbreite}{\textwidth}		% Bildbreite
+\newcommand{\bildhoehe}{\textheight/3}		% Bildhoehe
+\newcommand{\diagbreite}{\textwidth}		% Diagrammbreite
+\newcommand{\diaghoehe}{\diagbreite/1.618}	% Diagrammhoehe (Goldener Schnitt)
+
+% auxillary symbols
+\renewcommand{\tilde}{\symbol{126}}
+\newcommand{\define}{\stackrel{!}{=}}
+\renewcommand{\equiv}{\,\widehat{=}\,}
+\newcommand{\subsubsubsection}{\textbf}
+\newcommand{\re}{\mathrm{Re}}
+\newcommand{\pr}{\mathrm{Pr}}
+\newcommand{\st}{\mathrm{St}}
+\newcommand{\fr}{\mathrm{Fr}}
+\newcommand{\nus}{\mathrm{Nu}}
+\newcommand{\gr}{\mathrm{Gr}}
+\newcommand{\ra}{\mathrm{Ra}}
+%\renewcommand{\not}{\not}
+\newcommand{\im}{i}
+\newcommand{\ariwam}{ARiWaM}
+\newcommand{\matlab}{MATLAB}
+
+% mathematical operators
+\newcommand{\grad}{\,\mathrm{grad}\,}
+\renewcommand{\div}{\,\mathrm{div}\,}
+\newcommand{\rot}{\,\mathrm{rot}\,}
+\newcommand{\lap}{\Delta}
+\newcommand{\laplace}[1]{\mathscr{L}\left\{#1\right\}}
+\newcommand{\trans}{^T}
+\newcommand{\norm}{\psarc[linewidth=0.5pt](0,0){0.4}{0}{90}\psdot[dotsize=0.1](0.15,0.15)}

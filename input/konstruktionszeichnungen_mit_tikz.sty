@@ -1,0 +1,431 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title     : TikZ - Bibliothek zur Bemassung
+% Version   : 1.00 (2015/10/18)
+%
+% Author    : Florian HOLLAUS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%================================================
+%		use Package
+%================================================
+\NeedsTeXFormat{LaTeX2e}
+\usepackage{input/elementlibrary}
+%\ProvidesPackage{elementlibrary}
+%
+%================================================
+%		use Package
+%================================================
+%
+\RequirePackage{ifthen}
+\RequirePackage{tikz}
+\RequirePackage{xargs}
+\usetikzlibrary{shapes,arrows}
+\usetikzlibrary{positioning}
+\usepackage{verbatim}
+\usepackage{pgfmath}
+\usetikzlibrary{automata}
+\usetikzlibrary{arrows}
+\usetikzlibrary{calc}
+%
+%============================================================
+% DEFINITIONEN
+%============================================================
+% LINIEN
+\tikzstyle{bvl} = [line width = 0.5mm]	% Breite Volllinie
+\tikzstyle{mvl} = [line width = 0.35mm]	% Mittlere Volllinie
+\tikzstyle{svl} = [line width = 0.25mm]	% Schmale Volllinie
+\tikzstyle{syml} = [line width = 0.25mm,dash pattern=on 7mm off 1mm on 1mm off 1mm]	% Symmetrielinie
+\tikzstyle{syml_duenn} = [line width = 0.15mm,dash pattern=on 7mm off 1mm on 1mm off 1mm]	% Symmetrielinie
+\tikzstyle{vkl} = [line width = 0.25mm,dash pattern=on 4mm off 1mm]	% Verdeckte Kanten / Umrisse
+
+% ST"UCKLISTEN
+\tikzstyle{line_dot} = [line width = 0.25mm,-*]	% Linie mit Punkt am Ende für Stücklistenballon
+\tikzstyle{p_block} = [rectangle,draw,fill=white,text width=10em, text centered, rounded corners, minimum height=2.5em]	% Stücklistenballon - Block
+\tikzstyle{p_invblock} = [rectangle,text width=10em, text centered, rounded corners, minimum height=2em]	% Stücklistenballon - unsichtbarer Block
+\tikzstyle{p_arrow} = [line width = 0.25mm,->,>=latex]	% Linie mit Pfeil am Ende
+
+% BEMASSUNG
+\tikzstyle{mhl} = [line width = 0.25mm]	% Maßhilfslinie
+\tikzstyle{ml<>} = [line width = 0.25mm,<->,>=latex]	% Maßlinie mit beidseitigem Pfeil
+\tikzstyle{ml>} = [line width = 0.25mm,->,>=latex]		% Maßlinie mit einseitigem Pfeil am Ende
+\tikzstyle{ml<} = [line width = 0.25mm,<-,>=latex]		% Maßlinie mit einseitigem Pfeil am Beginn
+
+% Abstand der Maßhilfslinie zur Geometrie
+\newlength{\dmh}
+\setlength{\dmh}{0mm}
+
+% "Uberstand der Maßhilfslinie "uber die Maßlinie
+\newlength{\umh}
+\setlength{\umh}{2mm}
+
+% Abstand der Bemaßung zur Geometrie
+\newlength{\dm}
+\setlength{\dm}{10mm}
+
+% Abstand zwischen den Bemaßungen
+\newlength{\dzm}
+\setlength{\dzm}{10mm}
+
+% L"ange der Pfeile bei Bemassung kleiner Geometrien
+\newlength{\lbeins}			% L"ange des Masspfeils mit der Beschriftung
+\newlength{\lbzwei}			% L"ange des Masspfeils ohne Beschriftung
+\setlength{\lbeins}{6mm}
+\setlength{\lbzwei}{3mm}			
+%
+%============================================================
+% FUNKTIONEN
+%============================================================
+%
+%------------------------------------------------
+%		bemassung
+%------------------------------------------------
+%			\bemassung[0=erste Bemassungsebene/1=zweite Bemassungsebene usw.][Offset]{x1}{y1}{x2}{y2}{Bemaßungstext}{x=in Richtung der positiven x-Achse/xn=x=in Richtung der negativen x-Achse/y/yn}
+%
+\newcommandx{\bemassung}[8][1=0,2=0mm]{
+	\coordinate (A1) at (#3,#4);
+	\coordinate (A2) at (#5,#6);
+	
+	\ifthenelse{\equal{#8}{x}}{%
+		\ifthenelse{\lengthtest{#3>#5}}{
+			\coordinate (B1) at (#2+#3+\dmh+#1*\dzm+\dm,#4);
+			\coordinate (B2) at (#2+#3+\dmh+#1*\dzm+\dm,#6);
+		}{
+			\coordinate (B1) at (#2+#5+\dmh+#1*\dzm+\dm,#4);
+			\coordinate (B2) at (#2+#5+\dmh+#1*\dzm+\dm,#6);
+		}
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A1) -- (B1);
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A2) -- (B2);
+		\draw[ml<>] (B1) -- (B2) node[midway,sloped,above] {#7};
+	}{}
+	
+	\ifthenelse{\equal{#8}{xn}}{%
+		\ifthenelse{\lengthtest{#3<#5}}{
+			\coordinate (B1) at (-#2+#3-\dmh-#1*\dzm-\dm,#4);
+			\coordinate (B2) at (-#2+#3-\dmh-#1*\dzm-\dm,#6);
+		}{
+			\coordinate (B1) at (-#2+#5-\dmh-#1*\dzm-\dm,#4);
+			\coordinate (B2) at (-#2+#5-\dmh-#1*\dzm-\dm,#6);
+		}
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A1) -- (B1);
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A2) -- (B2);
+		\draw[ml<>] (B1) -- (B2) node[midway,sloped,above] {#7};
+	}{}
+	
+	\ifthenelse{\equal{#8}{y}}{%
+		\ifthenelse{\lengthtest{#4>#6}}{
+			\coordinate (B1) at (#3,#2+#4+\dmh+#1*\dzm+\dm);
+			\coordinate (B2) at (#5,#2+#4+\dmh+#1*\dzm+\dm);
+		}{
+			\coordinate (B1) at (#3,#2+#6+\dmh+#1*\dzm+\dm);
+			\coordinate (B2) at (#5,#2+#6+\dmh+#1*\dzm+\dm);
+		}
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A1) -- (B1);
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A2) -- (B2);
+		\draw[ml<>] (B1) -- (B2) node[midway,sloped,above] {#7};
+	}{}
+
+	\ifthenelse{\equal{#8}{yn}}{%
+		\ifthenelse{\lengthtest{#4<#6}}{
+			\coordinate (B1) at (#3,-#2+#4-\dmh-#1*\dzm-\dm);
+			\coordinate (B2) at (#5,-#2+#4-\dmh-#1*\dzm-\dm);
+		}{
+			\coordinate (B1) at (#3,-#2+#6-\dmh-#1*\dzm-\dm);
+			\coordinate (B2) at (#5,-#2+#6-\dmh-#1*\dzm-\dm);
+		}
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A1) -- (B1);
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A2) -- (B2);
+		\draw[ml<>] (B1) -- (B2) node[midway,sloped,above] {#7};
+	}{}	
+}
+%
+%------------------------------------------------
+%		winkelbemassung
+%------------------------------------------------
+%			\winkelbemassung[0=erste Bemassungsebene/1=zweite Bemassungsebene usw.][Offset]{x}{y}{winkel1}{winkel2}{Bemaßungstext}
+%
+\newcommandx{\winkelbemassung}[7][1=0,2=0mm]{
+	\coordinate (A1) at (#3,#4);
+	
+	\draw[mhl,shorten >=-\umh] (A1) -- ++(#5:#2+#1*\dzm+\dm);
+	\draw[mhl,shorten >=-\umh] (A1) -- ++(#6:#2+#1*\dzm+\dm);
+	\draw[ml<>] (A1) ++(#5:#2+#1*\dzm+\dm) arc (#5:#6:#2+#1*\dzm+\dm) node[midway,sloped,above] {#7};
+}
+%
+%------------------------------------------------
+%		kreisbemassung
+%------------------------------------------------
+%			\kreisbemassung{x}{y}{Radius}{Bemaßungstext}[l=Bemassungstext links/r=Bemaßunbgstext rechts/m=Bemassungstext mittig][Winkel]
+%
+\newcommandx{\kreisbemassung}[6][5=m,6=10]{
+	\coordinate (A1) at (#1,#2);
+	\def\winkeleins{#6}
+	\def\winkelzwei{#6+180}
+	
+	\ifthenelse{\equal{#5}{m}}{%
+		\draw[ml<>] (A1) +(\winkeleins:#3) -- +(\winkelzwei:#3) node[midway,sloped,above] {#4};
+	}{}
+	\ifthenelse{\equal{#5}{l}}{%
+		\draw[ml<>] (A1) +(\winkeleins:#3) -- +(\winkelzwei:#3) node[near end,sloped,above] {#4};
+	}{}
+	\ifthenelse{\equal{#5}{r}}{%
+		\draw[ml<>] (A1) +(\winkeleins:#3) -- +(\winkelzwei:#3) node[near start,sloped,above] {#4};
+	}{}
+}
+%
+%------------------------------------------------
+%		bemassungklein
+%------------------------------------------------
+%			\bemassungklein[0=erste Bemassungsebene/1=zweite Bemassungsebene usw.][Offset]{x1}{y1}{x2}{y2}{Bemaßungstext}{x=in Richtung der positiven x-Achse/xn=x=in Richtung der negativen x-Achse/y/yn}[l=Bemassungstext links/r=Bemaßunbgstext rechts]
+%
+\newcommandx{\bemassungklein}[9][1=0,2=0mm,9=l]{
+	\coordinate (A1) at (#3,#4);
+	\coordinate (A2) at (#5,#6);
+		
+	\ifthenelse{\equal{#8}{x}}{%
+		\ifthenelse{\lengthtest{#3>#5}}{
+			\coordinate (B1) at (#2+#3+\dmh+#1*\dzm+\dm,#4);
+			\coordinate (B2) at (#2+#3+\dmh+#1*\dzm+\dm,#6);
+			
+			\ifthenelse{\equal{#9}{l}}{%
+				\coordinate (B11) at (#2+#3+\dmh+#1*\dzm+\dm,#4-\lbeins);
+				\coordinate (B22) at (#2+#3+\dmh+#1*\dzm+\dm,#6+\lbzwei);
+				\draw[ml>] (B11) -- (B1) node[near start,sloped,above,xshift=0.5mm] {#7};
+				\draw[ml<] (B2) -- (B22);
+			}{}
+			\ifthenelse{\equal{#9}{r}}{%
+				\coordinate (B11) at (#2+#3+\dmh+#1*\dzm+\dm,#4-\lbzwei);
+				\coordinate (B22) at (#2+#3+\dmh+#1*\dzm+\dm,#6+\lbeins);
+				\draw[ml>] (B11) -- (B1);
+				\draw[ml<] (B2) -- (B22) node[near end,sloped,above,xshift=-0.5mm] {#7};
+			}{}
+		}{
+			\coordinate (B1) at (#2+#5+\dmh+#1*\dzm+\dm,#4);
+			\coordinate (B2) at (#2+#5+\dmh+#1*\dzm+\dm,#6);
+			
+			\ifthenelse{\equal{#9}{l}}{%
+				\coordinate (B11) at (#2+#5+\dmh+#1*\dzm+\dm,#4-\lbeins);
+				\coordinate (B22) at (#2+#5+\dmh+#1*\dzm+\dm,#6+\lbzwei);
+				\draw[ml>] (B11) -- (B1) node[near start,sloped,above,xshift=0.5mm] {#7};
+				\draw[ml<] (B2) -- (B22);
+			}{}
+			\ifthenelse{\equal{#9}{r}}{%
+				\coordinate (B11) at (#2+#5+\dmh+#1*\dzm+\dm,#4-\lbzwei);
+				\coordinate (B22) at (#2+#5+\dmh+#1*\dzm+\dm,#6+\lbeins);
+				\draw[ml>] (B11) -- (B1);
+				\draw[ml<] (B2) -- (B22) node[near end,sloped,above,xshift=-0.5mm] {#7};
+			}{}
+		}
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A1) -- (B1);
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A2) -- (B2);
+		\draw[mhl] (B1) -- (B2);
+	}{}
+	
+	\ifthenelse{\equal{#8}{xn}}{%
+		\ifthenelse{\lengthtest{#3<#5}}{
+			\coordinate (B1) at (-#2+#3-\dmh-#1*\dzm-\dm,#4);
+			\coordinate (B2) at (-#2+#3-\dmh-#1*\dzm-\dm,#6);
+			
+			\ifthenelse{\equal{#9}{l}}{%
+				\coordinate (B11) at (-#2+#3-\dmh-#1*\dzm-\dm,#4-\lbeins);
+				\coordinate (B22) at (-#2+#3-\dmh-#1*\dzm-\dm,#6+\lbzwei);
+				\draw[ml>] (B11) -- (B1) node[near start,sloped,above,xshift=0.5mm] {#7};
+				\draw[ml<] (B2) -- (B22);
+			}{}
+			\ifthenelse{\equal{#9}{r}}{%
+				\coordinate (B11) at (-#2+#3-\dmh-#1*\dzm-\dm,#4-\lbzwei);
+				\coordinate (B22) at (-#2+#3-\dmh-#1*\dzm-\dm,#6+\lbeins);
+				\draw[ml>] (B11) -- (B1);
+				\draw[ml<] (B2) -- (B22) node[near end,sloped,above,xshift=-0.5mm] {#7};
+			}{}
+		}{
+			\coordinate (B1) at (-#2+#5-\dmh-#1*\dzm-\dm,#4);
+			\coordinate (B2) at (-#2+#5-\dmh-#1*\dzm-\dm,#6);
+			
+			\ifthenelse{\equal{#9}{l}}{%
+				\coordinate (B11) at (-#2+#5-\dmh-#1*\dzm-\dm,#4-\lbeins);
+				\coordinate (B22) at (-#2+#5-\dmh-#1*\dzm-\dm,#6+\lbzwei);
+				\draw[ml>] (B11) -- (B1) node[near start,sloped,above,xshift=0.5mm] {#7};
+				\draw[ml<] (B2) -- (B22);
+			}{}
+			\ifthenelse{\equal{#9}{r}}{%
+				\coordinate (B11) at (-#2+#5-\dmh-#1*\dzm-\dm,#4-\lbzwei);
+				\coordinate (B22) at (-#2+#5-\dmh-#1*\dzm-\dm,#6+\lbeins);
+				\draw[ml>] (B11) -- (B1);
+				\draw[ml<] (B2) -- (B22) node[near end,sloped,above,xshift=-0.5mm] {#7};
+			}{}
+		}
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A1) -- (B1);
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A2) -- (B2);
+		\draw[mhl] (B1) -- (B2);
+	}{}
+	
+	\ifthenelse{\equal{#8}{y}}{%
+		\ifthenelse{\lengthtest{#4>#6}}{
+			\coordinate (B1) at (#3,#2+#4+\dmh+#1*\dzm+\dm);
+			\coordinate (B2) at (#5,#2+#4+\dmh+#1*\dzm+\dm);
+			
+			\ifthenelse{\equal{#9}{l}}{%
+				\coordinate (B11) at (#3-\lbeins,#2+#4+\dmh+#1*\dzm+\dm);
+				\coordinate (B22) at (#5+\lbzwei,#2+#4+\dmh+#1*\dzm+\dm);
+				\draw[ml>] (B11) -- (B1) node[near start,sloped,above,xshift=0.5mm] {#7};
+				\draw[ml<] (B2) -- (B22);
+			}{}
+			\ifthenelse{\equal{#9}{r}}{%
+				\coordinate (B11) at (#3-\lbzwei,#2+#4+\dmh+#1*\dzm+\dm);
+				\coordinate (B22) at (#5+\lbeins,#2+#4+\dmh+#1*\dzm+\dm);
+				\draw[ml>] (B11) -- (B1);
+				\draw[ml<] (B2) -- (B22) node[near end,sloped,above,xshift=-0.5mm] {#7};
+			}{}
+		}{
+			\coordinate (B1) at (#3,#2+#6+\dmh+#1*\dzm+\dm);
+			\coordinate (B2) at (#5,#2+#6+\dmh+#1*\dzm+\dm);
+			
+			\ifthenelse{\equal{#9}{l}}{%
+				\coordinate (B11) at (#3-\lbeins,#2+#6+\dmh+#1*\dzm+\dm);
+				\coordinate (B22) at (#5+\lbzwei,#2+#6+\dmh+#1*\dzm+\dm);
+				\draw[ml>] (B11) -- (B1) node[near start,sloped,above,xshift=0.5mm] {#7};
+				\draw[ml<] (B2) -- (B22);
+			}{}
+			\ifthenelse{\equal{#9}{r}}{%
+				\coordinate (B11) at (#3-\lbzwei,#2+#6+\dmh+#1*\dzm+\dm);
+				\coordinate (B22) at (#5+\lbeins,#2+#6+\dmh+#1*\dzm+\dm);
+				\draw[ml>] (B11) -- (B1);
+				\draw[ml<] (B2) -- (B22) node[near end,sloped,above,xshift=-0.5mm] {#7};
+			}{}
+		}
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A1) -- (B1);
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A2) -- (B2);
+		\draw[mhl] (B1) -- (B2);
+	}{}
+
+	\ifthenelse{\equal{#8}{yn}}{%
+		\ifthenelse{\lengthtest{#4<#6}}{
+			\coordinate (B1) at (#3,-#2+#4-\dmh-#1*\dzm-\dm);
+			\coordinate (B2) at (#5,-#2+#4-\dmh-#1*\dzm-\dm);
+			
+			\ifthenelse{\equal{#9}{l}}{%
+				\coordinate (B11) at (#3-\lbeins,-#2+#4-\dmh-#1*\dzm-\dm);
+				\coordinate (B22) at (#5+\lbzwei,-#2+#4-\dmh-#1*\dzm-\dm);
+				\draw[ml>] (B11) -- (B1) node[near start,sloped,above,xshift=0.5mm] {#7};
+				\draw[ml<] (B2) -- (B22);
+			}{}
+			\ifthenelse{\equal{#9}{r}}{%
+				\coordinate (B11) at (#3-\lbzwei,-#2+#4-\dmh-#1*\dzm-\dm);
+				\coordinate (B22) at (#5+\lbeins,-#2+#4-\dmh-#1*\dzm-\dm);
+				\draw[ml>] (B11) -- (B1);
+				\draw[ml<] (B2) -- (B22) node[near end,sloped,above,xshift=-0.5mm] {#7};
+				}{}
+		}{
+			\coordinate (B1) at (#3,-#2+#6-\dmh-#1*\dzm-\dm);
+			\coordinate (B2) at (#5,-#2+#6-\dmh-#1*\dzm-\dm);
+			
+			\ifthenelse{\equal{#9}{l}}{%
+				\coordinate (B11) at (#3-\lbeins,-#2+#6-\dmh-#1*\dzm-\dm);
+				\coordinate (B22) at (#5+\lbzwei,-#2+#6-\dmh-#1*\dzm-\dm);
+				\draw[ml>] (B11) -- (B1) node[near start,sloped,above,xshift=0.5mm] {#7};
+				\draw[ml<] (B2) -- (B22);
+			}{}
+			\ifthenelse{\equal{#9}{r}}{%
+				\coordinate (B11) at (#3-\lbzwei,-#2+#6-\dmh-#1*\dzm-\dm);
+				\coordinate (B22) at (#5+\lbeins,-#2+#6-\dmh-#1*\dzm-\dm);
+				\draw[ml>] (B11) -- (B1);
+				\draw[ml<] (B2) -- (B22) node[near end,sloped,above,xshift=-0.5mm] {#7};
+			}{}
+		}
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A1) -- (B1);
+		\draw[mhl,shorten <=\dmh,shorten >=-\umh] (A2) -- (B2);
+		\draw[mhl] (B1) -- (B2);
+	}{}	
+}
+%
+%------------------------------------------------
+%		winkelbemassungklein
+%------------------------------------------------
+%			\winkelbemassungklein[0=erste Bemassungsebene/1=zweite Bemassungsebene usw.][Offset]{x}{y}{winkel1}{winkel2}{Bemaßungstext}[l=Bemassungstext links/r=Bemaßunbgstext rechts][L"ange der Masspfeile]
+%
+\newcommandx{\winkelbemassungklein}[9][1=0,2=0mm,8=l,9=12mm]{
+	\def\lbwinkeleins{#9}		% L"ange des Masspfeils mit der Beschriftung (Grad)
+	\def\lbwinkelzwei{#9/2}		% L"ange des Masspfeils ohne Beschriftung (Grad)
+	\coordinate (A1) at (#3,#4);
+
+	\ifthenelse{\equal{#8}{r}}{%
+		\draw[mhl,shorten >=-\umh] (A1) -- ++(#5:#2+#1*\dzm+\dm);
+		\draw[mhl,shorten >=-\umh] (A1) -- ++(#6:#2+#1*\dzm+\dm);
+		\draw[mhl] (A1) ++(#5:#2+#1*\dzm+\dm) arc (#5:#6:#2+#1*\dzm+\dm);
+		\draw[ml>] (A1) ++(#5-\lbwinkeleins:#2+#1*\dzm+\dm) arc (#5-\lbwinkeleins:#5:#2+#1*\dzm+\dm) node[near start,sloped,above,xshift=0.5mm] {#7};
+		\draw[ml<] (A1) ++(#6:#2+#1*\dzm+\dm) arc (#6:#6+\lbwinkelzwei:#2+#1*\dzm+\dm);
+	}{}
+	
+	\ifthenelse{\equal{#8}{l}}{%
+		\draw[mhl,shorten >=-\umh] (A1) -- ++(#5:#2+#1*\dzm+\dm);
+		\draw[mhl,shorten >=-\umh] (A1) -- ++(#6:#2+#1*\dzm+\dm);
+		\draw[mhl] (A1) ++(#5:#2+#1*\dzm+\dm) arc (#5:#6:#2+#1*\dzm+\dm);
+		\draw[ml>] (A1) ++(#5-\lbwinkelzwei:#2+#1*\dzm+\dm) arc (#5-\lbwinkelzwei:#5:#2+#1*\dzm+\dm);
+		\draw[ml<] (A1) ++(#6:#2+#1*\dzm+\dm) arc (#6:#6+\lbwinkeleins:#2+#1*\dzm+\dm) node[near end,sloped,above,xshift=-0.5mm] {#7};
+	}{}
+}	
+%
+%------------------------------------------------
+%		kreisbemassungklein
+%------------------------------------------------
+%			\kreisbemassungklein{x}{y}{Radius}{Bemaßungstext}[l=Bemassungstext links/r=Bemaßunbgstext rechts][Winkel]
+%
+\newcommandx{\kreisbemassungklein}[6][5=m,6=10]{
+	\coordinate (A1) at (#1,#2);
+	\def\winkeleins{#6}
+	\def\winkelzwei{#6+180}
+	
+	\draw[mhl] (A1) +(\winkeleins:#3) -- +(\winkelzwei:#3);
+	
+	\ifthenelse{\equal{#5}{l}}{%
+		\draw[ml>] (A1) +(\winkelzwei:#3+\lbeins) -- +(\winkelzwei:#3) node[near start,sloped,above,xshift=0.5mm] {#4};
+		\draw[ml<] (A1) +(\winkeleins:#3) -- +(\winkeleins:#3+\lbzwei);
+	}{}
+	\ifthenelse{\equal{#5}{r}}{%
+		\draw[ml>] (A1) +(\winkelzwei:#3+\lbzwei) -- +(\winkelzwei:#3);
+		\draw[ml<] (A1) +(\winkeleins:#3) -- +(\winkeleins:#3+\lbeins) node[near end,sloped,above,xshift=-0.5mm] {#4};
+	}{}
+}
+%
+%
+%------------------------------------------------
+%		beschriftung
+%------------------------------------------------
+%			\beschriftung[l=links/r=rechts]{x1}{y1}{x2}{y2}{Beschriftungstext}[a=Pfeil/d=Punkt/n=nichts]
+%
+\newcommandx{\beschriftung}[7][1=l,7=a]{
+	\def\l{5mm}	% L"ange des horizontalen Abschnitts
+	\coordinate (A1) at (#2,#3);
+	\coordinate (A2) at (#4,#5);
+	
+	\ifthenelse{\equal{#1}{l}}{%
+		\coordinate (A3) at (#4-\l,#5);
+		\ifthenelse{\equal{#7}{a}}{%
+			\node[align=right,anchor=east] at (A3) (B) {#6};
+			\draw[p_arrow] (A3) -- (A2) -- (A1);
+		}{}
+		\ifthenelse{\equal{#7}{d}}{%
+			\node[align=right,anchor=east] at (A3) (B) {#6};
+			\draw[line_dot] (A3) -- (A2) -- (A1);
+		}{}
+		\ifthenelse{\equal{#7}{n}}{%
+			\node[align=right,anchor=east] at (A3) (B) {#6};
+			\draw[mhl] (A3) -- (A2) -- (A1);
+		}{}
+	}{}
+	\ifthenelse{\equal{#1}{r}}{%
+		\coordinate (A3) at (#4+\l,#5);
+		\ifthenelse{\equal{#7}{a}}{%
+			\node[align=left,anchor=west] at (A3) (B) {#6};
+			\draw[p_arrow] (A3) -- (A2) -- (A1);
+		}{}
+		\ifthenelse{\equal{#7}{d}}{%
+			\node[align=left,anchor=west] at (A3) (B) {#6};
+			\draw[line_dot] (A3) -- (A2) -- (A1);
+		}{}
+		\ifthenelse{\equal{#7}{n}}{%
+			\node[align=left,anchor=west] at (A3) (B) {#6};
+			\draw[mhl] (A3) -- (A2) -- (A1);
+		}{}			
+	}{}
+}

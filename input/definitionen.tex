@@ -1,0 +1,144 @@
+\ifthenelse{\boolean{english}}
+{}{
+	% deutsche Anpassungen
+	\usepackage[T1]{fontenc} % Aktiviert EC-Schriftarten
+	\usepackage{ngerman} % Deutsche Einstellungen
+	\usepackage[utf8]{inputenc}
+}
+\usepackage{url}
+
+%\usepackage[dvips]{graphicx}
+\usepackage[tmargin=1in,bmargin=1in,lmargin=1.25in,rmargin=1.25in]{geometry}
+%\usepackage{titlesec} %nicht Kompatibel mit der Dokumentenklasse
+\usepackage{xcolor}
+\usepackage[overload]{textcase}
+\definecolor{MSBlue}{rgb}{.204,.353,.541}
+\definecolor{MSLightBlue}{rgb}{.31,.506,.741}
+\usepackage{booktabs}
+
+% Set formats for each heading level
+%\titleformat*{\section}{\rmfamily\bfseries\huge\color{MSBlue}\lowercase}
+%\titleformat{\section}[hang]{\rmfamily\bfseries\huge\color{MSBlue}\lowercase}{\thesection}{1em}{}[]
+%\titleformat{\subsection}{\large\bfseries\sffamily\uppercase}{\thesubsection}{1em}{}
+%\titleformat{\subsubsection}{\sffamily\bfseries}{\thesubsubsection}{1em}{}
+
+\usepackage{graphicx}
+\usepackage{psfrag,tikz} % epsfig,
+\usetikzlibrary{arrows,calc}
+\usepackage{pst-all} % malen
+\usepackage{color} % farben
+\usepackage{exscale,relsize}
+\usepackage{fancyhdr}
+\usepackage[small]{caption}
+\usepackage{scrhack}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{units}
+\usepackage{subfigure}
+\usepackage{wallpaper}
+\usepackage{pst-all}
+\usepackage{rotating}
+\usepackage{amsmath,amssymb,amsfonts,amstext}
+\usepackage{mathrsfs}
+\usepackage{pgfplots}
+	\pgfplotsset{compat=1.14}
+\usepackage{makeidx}
+\usepackage[bookmarks=true,bookmarksnumbered=true]{hyperref}
+\usepackage{colortbl}	%% Farbe für Tabellen
+\usepackage{listings} 	%% Listing für Programmiersprachen
+\lstset{
+  language={C},
+  %basicstyle=\tiny  %% kleiner Sourcecode
+  %commentstyle=\tiny  %% nur Kommentar klein --> sieht scheiße aus
+}
+
+\newcommand{\babel}[2]{\ifthenelse{\boolean{english}}{#1}{#2}}
+\newcommand{\mif}{\quad\mathrm{\babel{if}{falls}}\quad}
+\newcommand{\with}{\quad\mathrm{\babel{with}{mit}}\quad}
+\newcommand{\for}{\quad\mathrm{\babel{for}{f"ur}}\quad}
+
+% color set
+\definecolorseries{foo}{rgb}{last}[rgb]{1.0,0.0,0.0}[rgb]{0.0,0.0,1.0}
+\resetcolorseries[16]{foo}
+
+% format specifications
+\renewcommand{\emph}{\textit}
+\newcommand{\file}{\textit}
+\newcommand{\cmd}{\texttt}
+\newcommand{\ten}{\boldsymbol}
+%\newcommand{\unit}{\mathrm}
+\newcommand{\lemma}{\textit}
+\newcommand{\deutsch}[1]{german: \textit{#1}}
+\renewcommand{\index}{\emph}
+
+% Command path to graphic files
+\newcommand{\gpath}{./grafics}
+\newcommand{\bsppath}{../uebungen/beispiele}
+
+%\renewcommand{\labelenumi}{\alph{enumi})}
+
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1.5ex plus0.5ex minus0.5ex}
+\setlength{\captionmargin}{3em}
+
+% counters
+\newcounter{example}
+\newcommand{\exampletext}{Beispiel }
+\newcommand{\example}[1]{\underline{\exampletext \arabic{chapter}.\arabic{example}:} #1 \addtocounter{example}{1}}
+\newcounter{exercise}
+\newcommand{\exercisetext}{Aufgabe }
+\newcommand{\exercise}[1]{\underline{\exercisetext \arabic{chapter}.\arabic{exercise}:} #1 \stepcounter{exercise}}
+\newcommand{\cchapter}[1]{\chapter{#1} \setcounter{example}{1} \setcounter{exercise}{1}}
+\newcommand{\solution}{\textit{L\"osung:} }
+%\newcounter{beispiel}
+%\setcounter{beispiel}{1}		% Nummer des ersten Beispiels
+\newboolean{student}
+\newcounter{enumcount}
+\newcommand{\resume}[1]{\begin{#1} \setcounter{enumi}{\value{enumcount}}}
+\newcommand{\pause}[1]{\setcounter{enumcount}{\value{enumi}} \end{#1}}
+
+% Kopfzeilen frei gestaltbar
+\usepackage{fancyhdr}
+\lfoot[\fancyplain{}{}]{\fancyplain{}{}}
+\rfoot[\fancyplain{}{}]{\fancyplain{}{}}
+\cfoot[\fancyplain{}{\footnotesize\thepage}]{\fancyplain{}{\footnotesize\thepage}}
+\lhead[\fancyplain{}{\footnotesize\nouppercase\leftmark}]{\fancyplain{}{}}
+\chead{}
+%\rhead[\fancyplain{}{}]{\fancyplain{}{\footnotesize\nouppercase\sc\leftmark}} %\sc commando is obsolete
+\rhead[\fancyplain{}{}]{\fancyplain{}{\footnotesize\nouppercase\leftmark}}
+
+% Farben im Dokument m"oglich
+\usepackage{color}
+
+% Schriftart Helvetica
+\usepackage{helvet}
+\renewcommand{\familydefault}{cmss}
+
+% anderdhalbfacher Zeilenabstand
+\usepackage{setspace}
+\onehalfspacing
+
+% Graphiken einbinden: hier für pdflatex
+%\usepackage[dvips]{graphicx}
+
+% verbesserte Floating Plazierung
+\usepackage{float}
+
+% Überprüfung des Layouts
+\usepackage{layout}
+
+\usepackage{array}
+
+% Höhe und Breite des Textkörpers etwas grösser definieren
+\usepackage[tmargin=1in,bmargin=1in,lmargin=1.25in,rmargin=1.25in]{geometry}
+
+% Einrückung von und Abstand zwischen Absätzen
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1.5ex plus0.5ex minus0.5ex}
+
+% weniger Warnungen wegen überfüllter Boxen
+\tolerance = 9999
+\sloppy
+
+% Counter für die Nummerierung
+\newcounter{romancount}

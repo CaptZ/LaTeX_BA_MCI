@@ -1,0 +1,62 @@
+% Nomenklatur folgendermassen aufgebaut:
+%
+% - Symbolverzeichnis
+%	- Deutsche Symbole: erzeugt "uber \nmD["Sortiervariable"]{"Symbol"}{"Bezeichnung"}{"Einheit"}
+%	- Griechische Symbole: erzeugt "uber \nmG["Sortiervariable"]{"Symbol"}{"Bezeichnung"}{"Einheit"}
+%	- Index: erzeugt "uber \nmI["Sortiervariable"]{"Index"}{"Bezeichnung"}
+% - Seitenumbruch
+% - Abk"urzungsverzeichnis: erzeugt "uber \nmI["Sortiervariable"]{"Abk"urzung"}{"Bezeichnung"}
+%
+%
+% Automatisierte Nomenklatur
+% In Texmaker als eigenen Befehl erzeugen: makeindex.exe %.nlo -s nomencl.ist -o %.nls
+% Anschliessend XeLaTeX, danach MakeIndex und dann wieder XeLaTex durchlaufen lassen
+\usepackage[intoc]{nomencl}\makenomenclature
+% Zeilenabstände verkleinern
+\setlength{\nomitemsep}{-\parsep}
+%
+% Variablen ("Uberschriften):
+\ifthenelse{\boolean{english}}{
+	\renewcommand{\nomname}{Nomenclature}
+}{
+	\renewcommand{\nomname}{Nomenklatur}
+}
+\newcommand\symbV{\ifthenelse{\boolean{english}}{List of symbols}{Symbolverzeichnis}}
+\newcommand\abkV{\ifthenelse{\boolean{english}}{List of abbreviations}{Abk"urzungsverzeichnis}}
+\newcommand\IndV{\ifthenelse{\boolean{Indices}}{List of symbols}{Indizes}}
+\newcommand\symboll{\ifthenelse{\boolean{english}}{Symbol}{Symbol}}
+\newcommand\bezeichnung{\ifthenelse{\boolean{english}}{Designation}{Bezeichnung}}
+\newcommand\einheit{\ifthenelse{\boolean{english}}{Unit}{Einheit}}
+\newcommand\indexx{\ifthenelse{\boolean{english}}{Index}{Index}}
+
+\renewcommand*{\nompreamble}{\markboth{\nomname}{\nomname}}
+\newcommand*{\chUnit}[1]{\hfill\makebox[1.7cm]{#1\hfill}}
+\newcommand*{\VarWidth}[1]{\parbox[c]{2cm}{#1}}
+\newcommand*{\DescrWidth}[1]{\parbox[c]{7cm}{#1}}
+\newcommand*{\chSubtitle}[1]{\item[\large\bfseries#1]}
+\newcommand*{\chnomSeq}[1]{\csname chSymb#1\endcsname}
+\renewcommand*{\nomgroup}{\chnomSeq}
+
+% Symbolverzeichnis
+% A = deutsche Symbole, B = griechische Symbole
+\newcommand*{\chSymbA}{\addsec*{\symbV}%
+	\item[\VarWidth{\textbf{\symboll}}]%
+	\textbf{\bezeichnung}\chUnit{\textbf{\einheit}}}
+\newcommand*{\chSymbB}{\vspace{0.2cm}}
+% Indizes
+\newcommand*{\chSymbC}{\vspace{0.5cm}%
+	\item[\VarWidth{\textbf{\indexx}}]%
+	\textbf{\bezeichnung}}
+
+% Abk"urzungsverzeichnis
+\newcommand*{\chSymbD}{\addsec*{\abkV}}
+	
+% Formatierung f"ur Eintr"age mit Einheit
+\newcommand*{\chwithUnit}[4]{\nomenclature[#1]{\VarWidth{#2}}{\DescrWidth{#3}\chUnit{#4}}}
+% Formatierung f"ur Eintr"age ohne Einheit
+\newcommand*{\chwithoutUnit}[3]{\nomenclature[#1]{\VarWidth{#2}}{#3}}
+
+\newcommand*{\nmD}[4][]{\chwithUnit{A#1}{#2}{#3}{#4}} % Deutsche Symbole
+\newcommand*{\nmG}[4][]{\chwithUnit{B#1}{#2}{#3}{#4}} % Griechische Symbole
+\newcommand*{\nmI}[3][]{\chwithoutUnit{C#1}{#2}{#3}} % Indizes
+\newcommand*{\nmA}[3][]{\chwithoutUnit{D#1}{#2}{#3}} % Abk"urzungsverzeichnis

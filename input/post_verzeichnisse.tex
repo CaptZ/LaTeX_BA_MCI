@@ -1,0 +1,54 @@
+% Literaturverzeichnis IEEE-gerecht
+\bibliographystyle{IEEEtran}	
+\bibliography{Literatur}
+
+\pagenumbering{Roman}
+\setcounter{page}{\value{romancount}}
+
+\newpage
+
+% Nomenklatur
+\printnomenclature
+
+\newpage
+
+% Anpassung der Abk"urzungen IN DIE PREAMBLE KOPIEREN!!!
+%\renewcommand\figurename{\ifthenelse{\boolean{english}}{Fig.}{Abb.}}
+%\renewcommand\tablename{\ifthenelse{\boolean{english}}{Tab.}{Tab.}}
+%\renewcommand\lstlistingname{\ifthenelse{\boolean{english}}{Lst.}{Lst.}}
+%\newcommand\Gl{\ifthenelse{\boolean{english}}{Eq.}{Gl.}}
+
+% "Uberschriften der Verzeichnisse
+\ifthenelse{\boolean{english}}{
+\renewcommand{\listfigurename}{List of Figures}
+\renewcommand{\listtablename}{List of Tables}
+\renewcommand{\lstlistlistingname}{List of Source Code}
+}
+{
+\renewcommand{\listfigurename}{Abbildungsverzeichnis}
+\renewcommand{\listtablename}{Tabellenverzeichnis}
+\renewcommand{\lstlistlistingname}{Quellcodeverzeichnis}
+%\renewcommand{\appendixname}{Anh"ange} --> wird nicht benötigt
+}
+
+% Abbildungsverzeichnis
+\listoffigures
+\addcontentsline{toc}{chapter}{\listfigurename} % f"ugt den Eintrag im Inhaltsverzeichnis hinzu
+
+\newpage
+
+% Tabellenverzeichnis
+\listoftables
+\addcontentsline{toc}{chapter}{\listtablename} % f"ugt den Eintrag im Inhaltsverzeichnis hinzu
+
+\newpage
+
+% Listingsverzeichnis
+\lstlistoflistings 
+\addcontentsline{toc}{chapter}{\lstlistlistingname} % f"ugt den Eintrag im Inhaltsverzeichnis hinzu
+
+%Appendix Anhänge --> nicht einfügen Schrottet das Abbildungsverzeichniss
+%\appendix 
+%\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}} 
+%\renewcommand*\appendixpagename{Anhang} 
+%\renewcommand{\appendixtocname}{Anhang} 
